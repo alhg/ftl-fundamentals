@@ -6,8 +6,10 @@ func Add(a, b float64) float64 {
 	return a + b
 }
 
-// Subtract takes two numbers and returns the result of subtracting the second
-// from the first.
+// Subtract takes two numbers and returns the result of subtracting the first
+// from the second.
 func Subtract(a, b float64) float64 {
-	return b - a
+	return a - b
+}
+
 }
