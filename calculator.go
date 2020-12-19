@@ -12,8 +12,7 @@ func Subtract(a, b float64) float64 {
 	return a - b
 }
 
-// Multiple takes two numbers and returns the result of multiplying the second
-// from the first.
+// Multiple takes two numbers and returns the result of multiplying them together.
 func Multiply(a, b float64) float64 {
 	return a * b
 }
