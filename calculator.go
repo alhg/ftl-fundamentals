@@ -4,6 +4,8 @@ package calculator
 import (
 	"fmt"
 	"math"
+	"strconv"
+	"strings"
 )
 
 // Add takes two or more numbers and returns the result of adding them together.
@@ -55,4 +57,42 @@ func Sqrt(a float64) (float64, error) {
 		return 0, fmt.Errorf("bad input: %f (square root of a negative is undefined)", a)
 	}
 	return math.Sqrt(a), nil
+}
+
+// Evaluate takes a arithmetic expression string, and returns the evaluation of the
+// arithmetic expression
+func Evaluate(s string) (float64, error) {
+	tokens := strings.Split(s, " ")
+	if len(tokens) != 3 {
+		return 0, fmt.Errorf("bad input: %q (unable to parse arithmetic expression)", s)
+	}
+
+	operand1, operator, operand2 := tokens[0], tokens[1], tokens[2]
+
+	op1, err := strconv.ParseFloat(operand1, 64)
+	if err != nil {
+		return 0, fmt.Errorf("bad input: %q (first operand cannot be parsed as float)", operand1)
+	}
+
+	op2, err := strconv.ParseFloat(operand2, 64)
+	if err != nil {
+		return 0, fmt.Errorf("bad input: %q (first operand cannot be parsed as float)", operand2)
+	}
+
+	switch {
+	case operator == "+":
+		return Add(op1, op2), nil
+	case operator == "-":
+		return Subtract(op1, op2), nil
+	case operator == "*":
+		return Multiply(op1, op2), nil
+	case operator == "/":
+		val, err := Divide(op1, op2)
+		if err != nil {
+			return 0, err
+		}
+		return val, nil
+	default:
+		return 0, fmt.Errorf("bad operator input: %q (arithmetic operator is undefined)", operator)
+	}
 }

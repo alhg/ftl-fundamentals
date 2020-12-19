@@ -116,3 +116,34 @@ func TestSqrt(t *testing.T) {
 		}
 	}
 }
+
+func TestEvaluate(t *testing.T) {
+	t.Parallel()
+	type evalTestCase struct {
+		name        string
+		input       string
+		want        float64
+		errExpected bool
+	}
+	testCases := []evalTestCase{
+		{name: "An addition arithmetic string returns positive number", input: "1 + 1.5", want: 2.5, errExpected: false},
+		{name: "An subtraction arithmetic string returns positive number", input: "100 - 0.1", want: 99.9, errExpected: false},
+		{name: "An multiplication arithmetic string returns positive number", input: "2 * -2", want: -4, errExpected: false},
+		{name: "An division arithmetic string returns positive number", input: "18 / 6", want: 3, errExpected: false},
+		{name: "Invalid arithmetic expression form returns error", input: "hello world goodbye world", want: 0, errExpected: true},
+		{name: "Invalid first operand returns error", input: "w + 3", want: 0, errExpected: true},
+		{name: "Invalid second operand returns error", input: "3 / w", want: 0, errExpected: true},
+		{name: "Invalid operator returns error", input: "3 ? 3", want: 0, errExpected: true},
+		{name: "Undefined division arithmetic returns error", input: "3 / 0", want: 0, errExpected: true},
+	}
+	for _, tc := range testCases {
+		got, err := calculator.Evaluate(tc.input)
+		errReceived := err != nil
+		if tc.errExpected != errReceived {
+			t.Fatalf("%s\nEvaluate(%q): unexpected error status: %v", tc.name, tc.input, errReceived)
+		}
+		if !tc.errExpected && tc.want != got {
+			t.Errorf("%s\nEvaluate(%q): want %f, got %f", tc.name, tc.input, tc.want, got)
+		}
+	}
+}
