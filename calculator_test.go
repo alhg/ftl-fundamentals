@@ -72,10 +72,29 @@ func TestDivide(t *testing.T) {
 		got, err := calculator.Divide(tc.a, tc.b)
 		errReceived := err != nil
 		if tc.errExpected != errReceived {
-			t.Fatalf("Divide(%f, %f): unexpected error status: %v", tc.a, tc.b, errReceived)
+			t.Fatalf("%s\nDivide(%f, %f): unexpected error status: %v", tc.name, tc.a, tc.b, errReceived)
 		}
 		if !tc.errExpected && tc.want != got {
 			t.Errorf("%s\nDivide(%f, %f): want %f, got %f", tc.name, tc.a, tc.b, tc.want, got)
+		}
+	}
+}
+
+func TestSqrt(t *testing.T) {
+	t.Parallel()
+	testCases := []testCase{
+		{name: "A positive number returns its square root", a: 4, want: 2, errExpected: false},
+		{name: "The square root of 0 will return 0", a: 0, want: 0, errExpected: false},
+		{name: "A negative number returns an error", a: -2, want: 0, errExpected: true},
+	}
+	for _, tc := range testCases {
+		got, err := calculator.Sqrt(tc.a)
+		errReceived := err != nil
+		if tc.errExpected != errReceived {
+			t.Fatalf("%s\nSqrt(%f): unexpected error status: %v", tc.name, tc.a, errReceived)
+		}
+		if !tc.errExpected && tc.want != got {
+			t.Errorf("%s\nSqrt(%f): want %f, got %f", tc.name, tc.a, tc.want, got)
 		}
 	}
 }
