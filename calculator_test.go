@@ -80,7 +80,6 @@ func TestDivide(t *testing.T) {
 		{name: "A number divided by zero that returns an error", inputs: []float64{2, 0}, want: 0, errExpected: true},
 	}
 	for _, tc := range testCases {
-
 		got, err := calculator.Divide(tc.inputs[0], tc.inputs[1:]...)
 		errReceived := err != nil
 		if tc.errExpected != errReceived {
